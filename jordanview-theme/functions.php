@@ -48,37 +48,127 @@ wp_enqueue_script( 'jordanview-navigation', get_template_directory_uri() . '/ass
 add_action( 'wp_enqueue_scripts', 'jordanview_scripts' );
 
 function jordanview_widgets_init() {
-register_sidebar( [
-'name'          => __( 'Footer Column 1', 'jordanview' ),
-'id'            => 'footer-1',
-'description'   => __( 'Appears in the first column of the footer.', 'jordanview' ),
-'before_widget' => '<section id="%1$s" class="widget %2$s">',
-'after_widget'  => '</section>',
-'before_title'  => '<h2 class="widget-title">',
-'after_title'   => '</h2>',
-] );
+    register_sidebar( [
+        'name'          => __( 'Footer Column 1', 'jordanview' ),
+        'id'            => 'footer-1',
+        'description'   => __( 'Appears in the first column of the footer.', 'jordanview' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ] );
 
-register_sidebar( [
-'name'          => __( 'Footer Column 2', 'jordanview' ),
-'id'            => 'footer-2',
-'description'   => __( 'Appears in the second column of the footer.', 'jordanview' ),
-'before_widget' => '<section id="%1$s" class="widget %2$s">',
-'after_widget'  => '</section>',
-'before_title'  => '<h2 class="widget-title">',
-'after_title'   => '</h2>',
-] );
+    register_sidebar( [
+        'name'          => __( 'Footer Column 2', 'jordanview' ),
+        'id'            => 'footer-2',
+        'description'   => __( 'Appears in the second column of the footer.', 'jordanview' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ] );
 
-register_sidebar( [
-'name'          => __( 'Footer Column 3', 'jordanview' ),
-'id'            => 'footer-3',
-'description'   => __( 'Appears in the third column of the footer.', 'jordanview' ),
-'before_widget' => '<section id="%1$s" class="widget %2$s">',
-'after_widget'  => '</section>',
-'before_title'  => '<h2 class="widget-title">',
-'after_title'   => '</h2>',
-] );
+    register_sidebar( [
+        'name'          => __( 'Footer Column 3', 'jordanview' ),
+        'id'            => 'footer-3',
+        'description'   => __( 'Appears in the third column of the footer.', 'jordanview' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ] );
 }
 add_action( 'widgets_init', 'jordanview_widgets_init' );
+
+if ( ! function_exists( 'jordanview_get_default_highlights' ) ) {
+    /**
+     * Default highlight items for the front page.
+     *
+     * @return array[]
+     */
+    function jordanview_get_default_highlights() {
+        return [
+            [
+                'icon'  => 'dashicons-location',
+                'title' => __( 'Minutes to Park City Mountain', 'jordanview' ),
+                'text'  => __( 'Ski-in, explore Main Street, and experience year-round adventure from an unbeatable basecamp.', 'jordanview' ),
+            ],
+            [
+                'icon'  => 'dashicons-admin-multisite',
+                'title' => __( 'Panoramic great room', 'jordanview' ),
+                'text'  => __( 'Floor-to-ceiling glass and an expansive deck bring Wasatch Range views to every gathering.', 'jordanview' ),
+            ],
+            [
+                'icon'  => 'dashicons-heart',
+                'title' => __( 'Curated comforts', 'jordanview' ),
+                'text'  => __( 'Private hot tub, spa-inspired suites, chef-ready kitchen, and smart home technology.', 'jordanview' ),
+            ],
+        ];
+    }
+}
+
+if ( ! function_exists( 'jordanview_get_default_amenities' ) ) {
+    /**
+     * Default amenity card content.
+     *
+     * @return array[]
+     */
+    function jordanview_get_default_amenities() {
+        return [
+            [
+                'title' => __( 'Gourmet kitchen', 'jordanview' ),
+                'text'  => __( 'Double ovens, high-end appliances, and an oversized island welcome dinner parties and après ski spreads.', 'jordanview' ),
+            ],
+            [
+                'title' => __( 'Spa-worthy suites', 'jordanview' ),
+                'text'  => __( 'Private balconies, soaking tubs, and premium linens create restful sanctuaries for every guest.', 'jordanview' ),
+            ],
+            [
+                'title' => __( 'Entertainment lounge', 'jordanview' ),
+                'text'  => __( 'Bunk suite, game room, theater setup, and walk-out patio keep every generation entertained.', 'jordanview' ),
+            ],
+        ];
+    }
+}
+
+if ( ! function_exists( 'jordanview_get_default_testimonials' ) ) {
+    /**
+     * Default testimonials content.
+     *
+     * @return array[]
+     */
+    function jordanview_get_default_testimonials() {
+        return [
+            [
+                'quote'  => __( 'Every detail felt curated for gathering—sunrise coffee on the deck, movie nights in the lounge, and a concierge team that thought of everything.', 'jordanview' ),
+                'author' => __( 'Elena, Denver', 'jordanview' ),
+            ],
+            [
+                'quote'  => __( 'The home is as breathtaking as the views. Our multi-generational trip was seamless with private suites and an elevator for easy access.', 'jordanview' ),
+                'author' => __( 'Marcus, Seattle', 'jordanview' ),
+            ],
+        ];
+    }
+}
+
+if ( ! function_exists( 'jordanview_sanitize_dashicon' ) ) {
+    /**
+     * Ensure dashicon class names remain safe.
+     *
+     * @param string $value Raw value from the customizer.
+     * @return string
+     */
+    function jordanview_sanitize_dashicon( $value ) {
+        $value = sanitize_text_field( $value );
+        if ( '' === $value ) {
+            return '';
+        }
+        if ( 0 !== strpos( $value, 'dashicons-' ) ) {
+            $value = 'dashicons-' . $value;
+        }
+        return preg_match( '/^dashicons-[a-z0-9\-]+$/', $value ) ? $value : '';
+    }
+}
 
 require get_template_directory() . '/inc/customizer.php';
 

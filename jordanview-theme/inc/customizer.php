@@ -90,10 +90,199 @@ $wp_customize->add_setting( 'jordanview_hero_image', [
 ] );
 
 $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'jordanview_hero_image', [
-'label'   => __( 'Hero Image', 'jordanview' ),
-'section' => 'jordanview_hero_section',
+'label'     => __( 'Hero Image', 'jordanview' ),
+'section'   => 'jordanview_hero_section',
 'mime_type' => 'image',
 ] ) );
+
+$wp_customize->add_section( 'jordanview_highlights_section', [
+'title'       => __( 'Highlights Section', 'jordanview' ),
+'priority'    => 35,
+'description' => __( 'Update the highlight features showcased beneath the hero.', 'jordanview' ),
+] );
+
+$wp_customize->add_setting( 'jordanview_highlights_title', [
+'default'           => __( 'Designed for unforgettable stays', 'jordanview' ),
+'sanitize_callback' => 'sanitize_text_field',
+] );
+
+$wp_customize->add_control( 'jordanview_highlights_title', [
+'label'   => __( 'Section Title', 'jordanview' ),
+'section' => 'jordanview_highlights_section',
+'type'    => 'text',
+] );
+
+$wp_customize->add_setting( 'jordanview_highlights_subtitle', [
+'default'           => __( 'Spacious layouts, thoughtful amenities, and concierge-ready service make hosting effortless and relaxing.', 'jordanview' ),
+'sanitize_callback' => 'sanitize_textarea_field',
+] );
+
+$wp_customize->add_control( 'jordanview_highlights_subtitle', [
+'label'   => __( 'Section Subtitle', 'jordanview' ),
+'section' => 'jordanview_highlights_section',
+'type'    => 'textarea',
+] );
+
+$default_highlights = jordanview_get_default_highlights();
+
+foreach ( $default_highlights as $index => $default_highlight ) {
+$item_number = $index + 1;
+$wp_customize->add_setting( "jordanview_highlight_{$item_number}_icon", [
+'default'           => $default_highlight['icon'],
+'sanitize_callback' => 'jordanview_sanitize_dashicon',
+] );
+
+$wp_customize->add_control( "jordanview_highlight_{$item_number}_icon", [
+'label'       => sprintf( __( 'Highlight %d Icon', 'jordanview' ), $item_number ),
+'description' => __( 'Enter a Dashicons class name (for example: dashicons-location).', 'jordanview' ),
+'section'     => 'jordanview_highlights_section',
+'type'        => 'text',
+] );
+
+    $wp_customize->add_setting( "jordanview_highlight_{$item_number}_title", [
+        'default'           => $default_highlight['title'],
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_highlight_{$item_number}_title", [
+'label'   => sprintf( __( 'Highlight %d Title', 'jordanview' ), $item_number ),
+'section' => 'jordanview_highlights_section',
+'type'    => 'text',
+] );
+
+    $wp_customize->add_setting( "jordanview_highlight_{$item_number}_text", [
+        'default'           => $default_highlight['text'],
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_highlight_{$item_number}_text", [
+'label'   => sprintf( __( 'Highlight %d Description', 'jordanview' ), $item_number ),
+'section' => 'jordanview_highlights_section',
+'type'    => 'textarea',
+] );
+}
+
+$wp_customize->add_section( 'jordanview_amenities_section', [
+'title'       => __( 'Amenities Section', 'jordanview' ),
+'priority'    => 37,
+'description' => __( 'Control the amenities cards displayed on the front page.', 'jordanview' ),
+] );
+
+$wp_customize->add_setting( 'jordanview_amenities_title', [
+'default'           => __( 'Amenities that feel like home (but better)', 'jordanview' ),
+'sanitize_callback' => 'sanitize_text_field',
+] );
+
+$wp_customize->add_control( 'jordanview_amenities_title', [
+'label'   => __( 'Section Title', 'jordanview' ),
+'section' => 'jordanview_amenities_section',
+'type'    => 'text',
+] );
+
+$wp_customize->add_setting( 'jordanview_amenities_subtitle', [
+'default'           => __( 'Every level is thoughtfully outfitted to make multi-generational stays seamless and memorable.', 'jordanview' ),
+'sanitize_callback' => 'sanitize_textarea_field',
+] );
+
+$wp_customize->add_control( 'jordanview_amenities_subtitle', [
+'label'   => __( 'Section Subtitle', 'jordanview' ),
+'section' => 'jordanview_amenities_section',
+'type'    => 'textarea',
+] );
+
+$default_amenities = jordanview_get_default_amenities();
+
+foreach ( $default_amenities as $index => $default_amenity ) {
+$item_number = $index + 1;
+$wp_customize->add_setting( "jordanview_amenity_{$item_number}_image", [
+'default'           => 0,
+'sanitize_callback' => 'absint',
+] );
+
+$wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, "jordanview_amenity_{$item_number}_image", [
+'label'       => sprintf( __( 'Amenity %d Image', 'jordanview' ), $item_number ),
+'description' => __( 'Upload an optional image to accompany this amenity.', 'jordanview' ),
+'section'     => 'jordanview_amenities_section',
+'mime_type'   => 'image',
+] ) );
+
+    $wp_customize->add_setting( "jordanview_amenity_{$item_number}_title", [
+        'default'           => $default_amenity['title'],
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_amenity_{$item_number}_title", [
+'label'   => sprintf( __( 'Amenity %d Title', 'jordanview' ), $item_number ),
+'section' => 'jordanview_amenities_section',
+'type'    => 'text',
+] );
+
+    $wp_customize->add_setting( "jordanview_amenity_{$item_number}_text", [
+        'default'           => $default_amenity['text'],
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_amenity_{$item_number}_text", [
+'label'   => sprintf( __( 'Amenity %d Description', 'jordanview' ), $item_number ),
+'section' => 'jordanview_amenities_section',
+'type'    => 'textarea',
+] );
+}
+
+$wp_customize->add_section( 'jordanview_testimonials_section', [
+'title'       => __( 'Testimonials Section', 'jordanview' ),
+'priority'    => 38,
+'description' => __( 'Manage the guest stories that appear on the front page.', 'jordanview' ),
+] );
+
+$wp_customize->add_setting( 'jordanview_testimonials_title', [
+'default'           => __( 'Guest stories', 'jordanview' ),
+'sanitize_callback' => 'sanitize_text_field',
+] );
+
+$wp_customize->add_control( 'jordanview_testimonials_title', [
+'label'   => __( 'Section Title', 'jordanview' ),
+'section' => 'jordanview_testimonials_section',
+'type'    => 'text',
+] );
+
+$wp_customize->add_setting( 'jordanview_testimonials_subtitle', [
+'default'           => __( 'Trusted by families and corporate retreats who crave design-forward comfort in the mountains.', 'jordanview' ),
+'sanitize_callback' => 'sanitize_textarea_field',
+] );
+
+$wp_customize->add_control( 'jordanview_testimonials_subtitle', [
+'label'   => __( 'Section Subtitle', 'jordanview' ),
+'section' => 'jordanview_testimonials_section',
+'type'    => 'textarea',
+] );
+
+$default_testimonials = jordanview_get_default_testimonials();
+
+foreach ( $default_testimonials as $index => $default_testimonial ) {
+$item_number = $index + 1;
+    $wp_customize->add_setting( "jordanview_testimonial_{$item_number}_quote", [
+        'default'           => $default_testimonial['quote'],
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_testimonial_{$item_number}_quote", [
+'label'   => sprintf( __( 'Testimonial %d Quote', 'jordanview' ), $item_number ),
+'section' => 'jordanview_testimonials_section',
+'type'    => 'textarea',
+] );
+
+    $wp_customize->add_setting( "jordanview_testimonial_{$item_number}_author", [
+        'default'           => $default_testimonial['author'],
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+$wp_customize->add_control( "jordanview_testimonial_{$item_number}_author", [
+'label'   => sprintf( __( 'Testimonial %d Author', 'jordanview' ), $item_number ),
+'section' => 'jordanview_testimonials_section',
+'type'    => 'text',
+] );
+}
 
 $wp_customize->add_section( 'jordanview_booking_section', [
 'title'       => __( 'Booking Section', 'jordanview' ),
