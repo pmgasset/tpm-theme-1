@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f6f3ff" />
+      <stop offset="100%" stop-color="#d7e8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#grad)" />
+  <g fill="#ffffff" opacity="0.7">
+    <circle cx="280" cy="220" r="110" />
+    <circle cx="420" cy="220" r="110" />
+    <rect x="220" y="220" width="400" height="260" rx="60" />
+  </g>
+  <path d="M150 650 L420 450 L720 710 L880 580 L1050 700" fill="none" stroke="#7aa3c9" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" />
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Playfair Display', serif" font-size="72" fill="#4a5c6d" opacity="0.8">Jordan View Retreat</text>
+</svg>
