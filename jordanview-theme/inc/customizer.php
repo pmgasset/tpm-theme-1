@@ -10,9 +10,37 @@ exit;
 }
 
 function jordanview_customize_register( $wp_customize ) {
-$wp_customize->add_section( 'jordanview_hero_section', [
-'title'       => __( 'Hero Section', 'jordanview' ),
-'priority'    => 30,
+    $wp_customize->add_section( 'jordanview_content_display_section', [
+        'title'       => __( 'Content Display', 'jordanview' ),
+        'priority'    => 25,
+        'description' => __( 'Toggle the visibility of titles on pages and single posts.', 'jordanview' ),
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_display_page_titles', [
+        'default'           => true,
+        'sanitize_callback' => 'jordanview_sanitize_checkbox',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_display_page_titles', [
+        'label'   => __( 'Show page titles', 'jordanview' ),
+        'section' => 'jordanview_content_display_section',
+        'type'    => 'checkbox',
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_display_post_titles', [
+        'default'           => true,
+        'sanitize_callback' => 'jordanview_sanitize_checkbox',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_display_post_titles', [
+        'label'   => __( 'Show single post titles', 'jordanview' ),
+        'section' => 'jordanview_content_display_section',
+        'type'    => 'checkbox',
+    ] );
+
+    $wp_customize->add_section( 'jordanview_hero_section', [
+        'title'       => __( 'Hero Section', 'jordanview' ),
+        'priority'    => 30,
 'description' => __( 'Customize the hero content that appears on the front page.', 'jordanview' ),
 ] );
 

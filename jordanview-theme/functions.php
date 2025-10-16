@@ -167,6 +167,18 @@ if ( ! function_exists( 'jordanview_sanitize_dashicon' ) ) {
             $value = 'dashicons-' . $value;
         }
         return preg_match( '/^dashicons-[a-z0-9\-]+$/', $value ) ? $value : '';
+}
+}
+
+if ( ! function_exists( 'jordanview_sanitize_checkbox' ) ) {
+    /**
+     * Sanitize checkbox values from the Customizer.
+     *
+     * @param mixed $checked The value to sanitize.
+     * @return bool
+     */
+    function jordanview_sanitize_checkbox( $checked ) {
+        return ( isset( $checked ) && ( true === $checked || '1' === $checked || 1 === $checked ) );
     }
 }
 

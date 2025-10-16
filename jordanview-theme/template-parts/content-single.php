@@ -13,7 +13,10 @@
 <span aria-hidden="true">&bull;</span>
 <?php the_category( ', ' ); ?>
 </div>
+<?php $show_post_title = get_theme_mod( 'jordanview_display_post_titles', true ); ?>
+<?php if ( $show_post_title ) : ?>
 <h1 class="section-title"><?php the_title(); ?></h1>
+<?php endif; ?>
 <?php if ( has_post_thumbnail() ) : ?>
 <div class="hero-media" style="margin-top:2rem;">
 <?php the_post_thumbnail( 'large' ); ?>
