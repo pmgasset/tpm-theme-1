@@ -182,6 +182,26 @@ if ( ! function_exists( 'jordanview_sanitize_checkbox' ) ) {
     }
 }
 
+if ( ! function_exists( 'jordanview_sanitize_select' ) ) {
+    /**
+     * Sanitize select controls by ensuring the value is one of the allowed choices.
+     *
+     * @param string                $value   Selected value.
+     * @param WP_Customize_Setting $setting Setting instance.
+     * @return string
+     */
+    function jordanview_sanitize_select( $value, $setting ) {
+        $value   = sanitize_text_field( $value );
+        $control = $setting->manager->get_control( $setting->id );
+
+        if ( ! $control || empty( $control->choices ) ) {
+            return $setting->default;
+        }
+
+        return array_key_exists( $value, $control->choices ) ? $value : $setting->default;
+    }
+}
+
 require get_template_directory() . '/inc/customizer.php';
 
 function jordanview_fallback_menu() {

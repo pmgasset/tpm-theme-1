@@ -312,11 +312,98 @@ $wp_customize->add_control( "jordanview_testimonial_{$item_number}_author", [
 ] );
 }
 
-$wp_customize->add_section( 'jordanview_booking_section', [
-'title'       => __( 'Booking Section', 'jordanview' ),
-'priority'    => 40,
-'description' => __( 'Control the call-to-action at the bottom of the front page.', 'jordanview' ),
-] );
+    $wp_customize->add_section( 'jordanview_latest_stories_section', [
+        'title'       => __( 'Latest Stories Section', 'jordanview' ),
+        'priority'    => 39,
+        'description' => __( 'Control the post grid displayed on the front page.', 'jordanview' ),
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_latest_stories_title', [
+        'default'           => __( 'Latest Stories', 'jordanview' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_latest_stories_title', [
+        'label'   => __( 'Section Title', 'jordanview' ),
+        'section' => 'jordanview_latest_stories_section',
+        'type'    => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_latest_stories_subtitle', [
+        'default'           => __( 'Get travel inspiration, insider tips, and updates from Park City and beyond.', 'jordanview' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_latest_stories_subtitle', [
+        'label'   => __( 'Section Subtitle', 'jordanview' ),
+        'section' => 'jordanview_latest_stories_section',
+        'type'    => 'textarea',
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_latest_stories_filter_type', [
+        'default'           => 'none',
+        'sanitize_callback' => 'jordanview_sanitize_select',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_latest_stories_filter_type', [
+        'label'       => __( 'Filter Posts By', 'jordanview' ),
+        'section'     => 'jordanview_latest_stories_section',
+        'type'        => 'select',
+        'choices'     => [
+            'none'     => __( 'Show all recent posts', 'jordanview' ),
+            'category' => __( 'Specific category', 'jordanview' ),
+            'tag'      => __( 'Specific tag', 'jordanview' ),
+        ],
+        'description' => __( 'Choose how to curate the posts featured on the homepage.', 'jordanview' ),
+    ] );
+
+    $categories        = get_categories( [ 'hide_empty' => false ] );
+    $category_choices  = [ 0 => __( 'All categories', 'jordanview' ) ];
+    foreach ( $categories as $category ) {
+        $category_choices[ $category->term_id ] = $category->name;
+    }
+
+    $wp_customize->add_setting( 'jordanview_latest_stories_category', [
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_latest_stories_category', [
+        'label'           => __( 'Select Category', 'jordanview' ),
+        'section'         => 'jordanview_latest_stories_section',
+        'type'            => 'select',
+        'choices'         => $category_choices,
+        'active_callback' => function( $control ) {
+            return 'category' === $control->manager->get_setting( 'jordanview_latest_stories_filter_type' )->value();
+        },
+    ] );
+
+    $tags        = get_tags( [ 'hide_empty' => false ] );
+    $tag_choices = [ 0 => __( 'All tags', 'jordanview' ) ];
+    foreach ( $tags as $tag ) {
+        $tag_choices[ $tag->term_id ] = $tag->name;
+    }
+
+    $wp_customize->add_setting( 'jordanview_latest_stories_tag', [
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_latest_stories_tag', [
+        'label'           => __( 'Select Tag', 'jordanview' ),
+        'section'         => 'jordanview_latest_stories_section',
+        'type'            => 'select',
+        'choices'         => $tag_choices,
+        'active_callback' => function( $control ) {
+            return 'tag' === $control->manager->get_setting( 'jordanview_latest_stories_filter_type' )->value();
+        },
+    ] );
+
+    $wp_customize->add_section( 'jordanview_booking_section', [
+        'title'       => __( 'Booking Section', 'jordanview' ),
+        'priority'    => 40,
+        'description' => __( 'Control the call-to-action at the bottom of the front page.', 'jordanview' ),
+    ] );
 
 $wp_customize->add_setting( 'jordanview_booking_title', [
 'default'           => __( 'Ready to experience Jordan View Retreat?', 'jordanview' ),
@@ -351,17 +438,54 @@ $wp_customize->add_control( 'jordanview_booking_label', [
 'type'    => 'text',
 ] );
 
-$wp_customize->add_setting( 'jordanview_booking_url', [
-'default'           => '',
-'sanitize_callback' => 'esc_url_raw',
-] );
+    $wp_customize->add_setting( 'jordanview_booking_url', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ] );
 
-$wp_customize->add_control( 'jordanview_booking_url', [
-'label'       => __( 'Booking Button URL', 'jordanview' ),
-'description' => __( 'Leave blank to use the site admin email address.', 'jordanview' ),
-'section'     => 'jordanview_booking_section',
-'type'        => 'url',
-] );
+    $wp_customize->add_control( 'jordanview_booking_url', [
+        'label'       => __( 'Booking Button URL', 'jordanview' ),
+        'description' => __( 'Leave blank to use the site admin email address.', 'jordanview' ),
+        'section'     => 'jordanview_booking_section',
+        'type'        => 'url',
+    ] );
+
+    $wp_customize->add_setting( 'jordanview_booking_partners_title', [
+        'default'           => __( 'Book with our trusted partners', 'jordanview' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+    $wp_customize->add_control( 'jordanview_booking_partners_title', [
+        'label'       => __( 'Partners Heading', 'jordanview' ),
+        'description' => __( 'Displayed above the booking partner links.', 'jordanview' ),
+        'section'     => 'jordanview_booking_section',
+        'type'        => 'text',
+    ] );
+
+    for ( $i = 1; $i <= 3; $i++ ) {
+        $wp_customize->add_setting( "jordanview_booking_partner_{$i}_label", [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+
+        $wp_customize->add_control( "jordanview_booking_partner_{$i}_label", [
+            'label'       => sprintf( __( 'Partner %d Label', 'jordanview' ), $i ),
+            'section'     => 'jordanview_booking_section',
+            'type'        => 'text',
+            'description' => __( 'Enter the partner name as it should appear on the homepage.', 'jordanview' ),
+        ] );
+
+        $wp_customize->add_setting( "jordanview_booking_partner_{$i}_url", [
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ] );
+
+        $wp_customize->add_control( "jordanview_booking_partner_{$i}_url", [
+            'label'   => sprintf( __( 'Partner %d URL', 'jordanview' ), $i ),
+            'section' => 'jordanview_booking_section',
+            'type'    => 'url',
+        ] );
+    }
 }
 add_action( 'customize_register', 'jordanview_customize_register' );
 
